@@ -434,8 +434,6 @@ body:has(.mask) .story-tour:not(.story-complete){display:none}
             <div class="tlist" id="tlist"></div>
             <div class="dh">Template details</div>
             <div id="details"></div>
-            <button class="btn fill insert" id="insertBtn">Insert template</button>
-            <p class="note">Choose a template to fill your message. Details update automatically; all text is editable.</p>
           </aside>
         </div>
       </div>
@@ -703,7 +701,6 @@ function currentDetailFields(t){
 }
 function renderDetails(){
   const t=cur(),box=$('#details');
-  $('#insertBtn').disabled=!t;
   const fields=currentDetailFields(t);
   if(!fields.length){box.innerHTML='<p class="note" style="margin:0">No details to fill in for this message.</p>';return;}
   box.innerHTML=fields.map(k=>{
@@ -782,14 +779,6 @@ function doInsert(){
   toast(n?`Template inserted · ${n} placeholder${n>1?'s':''} still empty`:'Template inserted','ok');
   ed.scrollTop=0;renderDetails();
 }
-$('#insertBtn').onclick=()=>{
-  if(!cur())return;
-  if(hasContent()){
-    modal({title:'Replace current message?',html:'<p style="margin:0">Inserting <b>'+esc(cur().name)+'</b> will replace the text and subject already in the editor.</p>',
-      actions:[{label:'Keep my message',cls:'gray'},{label:'Replace',cls:'fill',fn:doInsert}]});
-  }else doInsert();
-};
-
 /* ---------- attachments ---------- */
 $('#attachBtn').onclick=()=>$('#fileIn').click();
 $('#fileIn').onchange=e=>{
